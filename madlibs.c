@@ -88,8 +88,7 @@ int stringCompare(char str1[], char compared[]){
 	return diff;
 } // dreyden compare fxn (project 6)
 void equivalency(char str[][STRCAP], int row, char strb[], char strc[]){
-	int val = stringCompare(str[row], strb);
-		switch(val){
+		switch(stringCompare(str[row], strb)){
 			case 0:
 				printf("Enter %s: ", strc);
 				scanf("%s", str[row]);
