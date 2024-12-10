@@ -20,16 +20,13 @@ void output(char str[][STRCAP], int rows, int cols);
 int space(char str[][STRCAP], int row, int cols);
 
 int main(int argc, char *argv[]){
-	int numlines = 0;
-	char madlibStr[ROWS][STRCAP]; // rows arbitrarily large
-
-	
 	FILE* fp = fopen(FN, "r"); // file io for reading madlib into program
 	if(fp == NULL){
 		printf("Can't open %s.\n", FN);
 		return 0;
 	}
 	else{
+		char madlibStr[ROWS][STRCAP]; // rows arbitrarily large
 		getFile(argc, argv);
 		int rows = store(fp, ROWS, STRCAP, madlibStr);
 	 	prompt(madlibStr, rows, STRCAP);
