@@ -1,9 +1,10 @@
-// dreyden aubert
+// team 4: dreyden aubert, jackson smith, roel paculanan 
 // 11/26/24
 // madlibs
 
 #include <stdio.h>
-#define FN "madlib1.txt"
+#include <stdbool.h>
+#define FN "madlib2.txt"
 #define AD "an adjective"
 #define NO "a noun"
 #define VE "a verb"
@@ -17,7 +18,7 @@ void prompt(char str[][STRCAP], int rows, int cols);
 int stringCompare(char str1[], char compared[]);
 void equivalency(char str[][STRCAP], int row, char strb[], char strc[]);
 void output(char str[][STRCAP], int rows, int cols);
-int space(char str[][STRCAP], int row, int cols);
+bool space(char str[][STRCAP], int row, int cols);
 
 int main(int argc, char *argv[]){
 	FILE* fp = fopen(FN, "r"); // file io for reading madlib into program
@@ -94,23 +95,21 @@ void equivalency(char str[][STRCAP], int row, char strb[], char strc[]){
 void output(char str[][STRCAP], int rows, int cols){
 	for (int i = 0; i < rows; i++){
 	 	printf("%s", str[i]);
-	 		if(space(str, i + 1, cols) == 0){
+	 		if(space(str, i + 1, cols) == false){
 	 			printf(" ");
 	 		}
 	 	}
 	 	printf("\n");
 }
-int space(char str[][STRCAP], int row, int cols){
-	int val = 0;
+bool space(char str[][STRCAP], int row, int cols){
 	char first = str[row][0];
 	switch(first){
 		case '.':
 		case ',':
 		case '?':
 		case '!':
-			val = 1;
-			break;
+			return true;
 	}
-	return val;
+	return false;
 }
 
