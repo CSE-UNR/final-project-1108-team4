@@ -44,19 +44,15 @@ void getFile(int argc, char *argv[]){
 		else{
 			printf("\nInvalid argument.\n");
 		}
-	}//might put into separate function
+	}
 }
 int store(FILE* p, int rows, int cols, char str[][STRCAP]){
-	int numRows = 0;
-	for(int i = 0; i < rows; i++){
-		fgets(str[i], STRCAP, p);
-		str[i][stringLength(str[i]) - 1] = '\0'; // removes endline character fgets inserts
-		numRows = i;
-		if(stringLength(str[i]) == 0){
-			break; // exits loop once blank line encountered
-		}
+	int i = 0;
+	while(fgets(str[i], STRCAP, p) != NULL && i < rows){
+		str[i][stringLength(str[i]) - 1] = '\0';
+		i++;
 	}
-	return numRows;
+	return i - 1; // since i increments to rows + 1 before control becomes false
 }
 int stringLength(char str[]){
 	int count = 0;
