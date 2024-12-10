@@ -7,19 +7,21 @@
 #define AD "an adjective"
 #define NO "a noun"
 #define VE "a verb"
-#define NUM_LINES 200
+#define ROWS 200
 #define STRCAP 200
- 
+
+void getFile(int argc, char *argv[]);
 int store(FILE* p, int rows, int cols, char str[][STRCAP]);
 int stringLength(char str[]);
 void prompt(char str[][STRCAP], int rows, int cols);
 int stringCompare(char str1[], char compared[]);
 void equivalency(char str[][STRCAP], int row, char strb[], char strc[]);
+void output(char str[][STRCAP], int rows, int cols);
 int space(char str[][STRCAP], int row, int cols);
 
 int main(int argc, char *argv[]){
 	int numlines = 0;
-	char madlibStr[NUM_LINES][STRCAP]; // rows arbitrarily large
+	char madlibStr[ROWS][STRCAP]; // rows arbitrarily large
 
 	
 	FILE* fp = fopen(FN, "r"); // file io for reading madlib into program
@@ -28,30 +30,25 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 	else{
-		if(argc > 1){//no arguments passed makes argc = 1, so >1 to prevent segfault
-			char name[9] = {"filename"};//argument
-			if(stringCompare(name, argv[1]) == 0){
-				printf("\nThe madlib file name is: %s.\n", FN);
-			}
-			else{
-				printf("\nInvalid argument.\n");
-			}
-		}//might put into separate function
-		int rows = store(fp, NUM_LINES, STRCAP, madlibStr);
-		//printf("\n%d\n", rows);//test
+		getFile(argc, argv);
+		int rows = store(fp, ROWS, STRCAP, madlibStr);
 	 	prompt(madlibStr, rows, STRCAP);
-	 	for (int i = 0; i < rows; i++){
-	 		printf("%s", madlibStr[i]);
-	 		if(space(madlibStr, i, STRCAP) == 0){
-	 			printf(" ");
-	 		}
-	 	}
-	 	printf("\n");
+	 	output(madlibStr, rows, STRCAP);
 		fclose(fp);
 		return 0;
 	}
 }
-
+void getFile(int argc, char *argv[]){
+	if(argc > 1){//no arguments passed makes argc = 1, so >1 to prevent segfault
+		char name[9] = {"filename"};//argument
+		if(stringCompare(name, argv[1]) == 0){
+			printf("\nThe madlib file name is: %s.\n", FN);
+		}
+		else{
+			printf("\nInvalid argument.\n");
+		}
+	}//might put into separate function
+}
 int store(FILE* p, int rows, int cols, char str[][STRCAP]){
 	int numRows = 0;
 	for(int i = 0; i < rows; i++){
@@ -102,6 +99,15 @@ void equivalency(char str[][STRCAP], int row, char strb[], char strc[]){
 				break;
 		}
 }
+void output(char str[][STRCAP], int rows, int cols){
+	for (int i = 0; i < rows; i++){
+	 	printf("%s", str[i]);
+	 		if(space(str, i + 1, cols) == 0){
+	 			printf(" ");
+	 		}
+	 	}
+	 	printf("\n");
+}
 int space(char str[][STRCAP], int row, int cols){
 	int val = 0;
 	char first = str[row][0];
@@ -110,7 +116,6 @@ int space(char str[][STRCAP], int row, int cols){
 		case ',':
 		case '?':
 		case '!':
-		//case: '"':
 			val = 1;
 			break;
 	}
