@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#define FN "madlib2.txt"
+#define FN "madlib1.txt"
 #define AD "an adjective"
 #define NO "a noun"
 #define VE "a verb"
@@ -49,8 +49,8 @@ void getFile(int argc, char *argv[]){
 }
 int store(FILE* p, int rows, int cols, char str[][STRCAP]){
 	int i = 0;
-	while(fgets(str[i], STRCAP, p) != NULL && i < rows){
-		str[i][stringLength(str[i]) - 1] = '\0';
+	while(fgets(str[i], cols, p) != NULL && i < rows){
+		str[i][stringLength(str[i]) - 1] = '\0'; // removes \n fgets inserts
 		i++;
 	}
 	return i - 1; // since i increments to rows + 1 before control becomes false
@@ -95,15 +95,14 @@ void equivalency(char str[][STRCAP], int row, char strb[], char strc[]){
 void output(char str[][STRCAP], int rows, int cols){
 	for (int i = 0; i < rows; i++){
 	 	printf("%s", str[i]);
-	 		if(space(str, i + 1, cols) == false){
+	 		if(!space(str, i + 1, cols)){
 	 			printf(" ");
 	 		}
 	 	}
 	 	printf("\n");
 }
 bool space(char str[][STRCAP], int row, int cols){
-	char first = str[row][0];
-	switch(first){
+	switch(str[row][0]){
 		case '.':
 		case ',':
 		case '?':
